@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Validation - Demo App</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./index.ts" defer></script>
   </head>
   <body class="bg-gray-100 p-4">
     <div class="max-w-4xl mx-auto">
@@ -19,12 +20,14 @@
           <button
             class="rounded-md text-lg bg-blue-200 hover:bg-blue-800 hover:text-white p-4 mt-4"
             id="button"
+            onclick="validate(0, 100)"
           >
             Validate It!
           </button>
           <button
             class="rounded-md text-lg bg-red-200 hover:bg-red-800 hover:text-white p-4 mt-4"
             id="button2"
+            onclick="clearFields()"
           >
             Clear!
           </button>
@@ -32,6 +35,5 @@
         <div class="text-lg mt-4" id="result"></div>
       </div>
     </div>
-    <script type="module" src="./index.js"></script>
   </body>
 </html>

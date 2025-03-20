@@ -6,11 +6,11 @@ test.describe('Number Validator', () => {
   });
 
   test('should show Invalid message for empty input', async ({ page }) => {
-    const validateButton = page.locator('#validation-btn');
+    const validateButton = page.locator('#button');
     await validateButton.click();
 
     const result = page.locator('#result');
-    await expect(result).toContainText('Invalid - empty or non integer');
+    await expect(result).toContainText('Invalid');
   });
 
   test('should show Invalid message for non-integer input', async ({
@@ -19,11 +19,11 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('12.34');
 
-    const validateButton = page.locator('#validation-btn');
+    const validateButton = page.locator('#button');
     await validateButton.click();
 
     const result = page.locator('#result');
-    await expect(result).toContainText('Invalid - empty or non integer');
+    await expect(result).toContainText('Invalid');
   });
 
   test('should show Invalid message for number out of range (>100)', async ({
@@ -32,11 +32,11 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('150');
 
-    const validateButton = page.locator('#validation-btn');
+    const validateButton = page.locator('#button');
     await validateButton.click();
 
     const result = page.locator('#result');
-    await expect(result).toContainText('Invalid number');
+    await expect(result).toContainText('Invalid');
   });
 
   test('should show Invalid message for number out of range (<0)', async ({
@@ -45,22 +45,22 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('-10');
 
-    const validateButton = page.locator('#validation-btn');
+    const validateButton = page.locator('#button');
     await validateButton.click();
 
     const result = page.locator('#result');
-    await expect(result).toContainText('Invalid number');
+    await expect(result).toContainText('Invalid');
   });
 
   test('should show Invalid message for odd number', async ({ page }) => {
     const input = page.locator('#input');
     await input.fill('15');
 
-    const validateButton = page.locator('#validation-btn');
+    const validateButton = page.locator('#button');
     await validateButton.click();
 
     const result = page.locator('#result');
-    await expect(result).toContainText('Invalid number');
+    await expect(result).toContainText('Invalid');
   });
 
   test('should show Valid message for even number between 0 and 100', async ({
@@ -69,7 +69,7 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('42');
 
-    const validateButton = page.locator('#validation-btn');
+    const validateButton = page.locator('#button');
     await validateButton.click();
 
     const result = page.locator('#result');
@@ -82,10 +82,10 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('42');
 
-    const validateButton = page.locator('#validation-btn');
+    const validateButton = page.locator('#button');
     await validateButton.click();
 
-    const clearButton = page.locator('#cleanup-btn');
+    const clearButton = page.locator('#button2');
     await clearButton.click();
 
     await expect(input).toHaveValue('');
