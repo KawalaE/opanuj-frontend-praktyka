@@ -6,7 +6,7 @@ test.describe('Number Validator', () => {
   });
 
   test('should show Invalid message for empty input', async ({ page }) => {
-    const validateButton = page.locator('#button');
+    const validateButton = page.locator('#validation-btn');
     await validateButton.click();
 
     const result = page.locator('#result');
@@ -19,7 +19,7 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('12.34');
 
-    const validateButton = page.locator('#button');
+    const validateButton = page.locator('#validation-btn');
     await validateButton.click();
 
     const result = page.locator('#result');
@@ -32,7 +32,7 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('150');
 
-    const validateButton = page.locator('#button');
+    const validateButton = page.locator('#validation-btn');
     await validateButton.click();
 
     const result = page.locator('#result');
@@ -45,7 +45,7 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('-10');
 
-    const validateButton = page.locator('#button');
+    const validateButton = page.locator('#validation-btn');
     await validateButton.click();
 
     const result = page.locator('#result');
@@ -56,7 +56,7 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('15');
 
-    const validateButton = page.locator('#button');
+    const validateButton = page.locator('#validation-btn');
     await validateButton.click();
 
     const result = page.locator('#result');
@@ -69,7 +69,7 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('42');
 
-    const validateButton = page.locator('#button');
+    const validateButton = page.locator('#validation-btn');
     await validateButton.click();
 
     const result = page.locator('#result');
@@ -82,10 +82,10 @@ test.describe('Number Validator', () => {
     const input = page.locator('#input');
     await input.fill('42');
 
-    const validateButton = page.locator('#button');
+    const validateButton = page.locator('#validation-btn');
     await validateButton.click();
 
-    const clearButton = page.locator('#button2');
+    const clearButton = page.locator('#cleanup-btn');
     await clearButton.click();
 
     await expect(input).toHaveValue('');
