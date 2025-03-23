@@ -1,45 +1,23 @@
-const result = document.getElementById('result') as HTMLInputElement;
-const input = document.getElementById('input') as HTMLInputElement;
+import { NUMBER_VALIDATORS } from './validation/methods';
+import { validate } from './validation/validator';
 
-function validate(min: number, max: number) {
-  if (Validator.isValid(input.value, min, max)) {
-    result.textContent = 'Valid';
-    return;
-  }
-  result.textContent = 'Invalid';
+function main() {
+  const input: HTMLInputElement = document.querySelector('input')!;
+  const result = document.querySelector('#result')!;
+
+  const validateBtn = document.getElementById('validation-btn');
+  const clearBtn = document.getElementById('cleanup-btn');
+
+  validateBtn?.addEventListener('click', () => {
+    console.log('Invoke validation method');
+    const validationMessage = validate(input?.value, NUMBER_VALIDATORS);
+    result.innerHTML = validationMessage;
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    input.value = '';
+    result.innerHTML = '';
+  });
 }
 
-function clearFields() {
-  input.value = '';
-  result.textContent = '';
-}
-
-class Validator {
-  static isNumber(input: any) {
-    const number = Number(input);
-    if (!isNaN(number) && Number.isInteger(number)) {
-      return number;
-    }
-    return false;
-  }
-
-  static isBetween(input: any, min: number, max: number) {
-    const number = this.isNumber(input);
-    if (number) {
-      return number > min && number < max;
-    }
-    return number;
-  }
-
-  static isEven(input: any) {
-    const number = this.isNumber(input);
-    if (number) {
-      return number % 2 === 0;
-    }
-    return number;
-  }
-
-  static isValid(input: any, min: number, max: number) {
-    return this.isBetween(input, min, max) && this.isEven(input);
-  }
-}
+main();
