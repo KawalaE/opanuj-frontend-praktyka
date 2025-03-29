@@ -12,8 +12,17 @@ export const useCharacters = (name: string, gender: string) => {
       try {
         const url = `https://rickandmortyapi.com/api/character/?name=${name}&gender=${gender}`;
         const response = await fetch(url);
-        const data = await response.json();
-        setCharacters(data.results);
+        const data: unknown = await response.json();
+        if (
+          typeof data === 'object' &&
+          data !== null &&
+          'results' in data &&
+          Array.isArray(data.results)
+        ) {
+          setCharacters(data.results);
+        } else {
+          console.error('Invalid response format.');
+        }
       } catch (error) {
         setError(`Error druing fetching data ${error}!`);
       } finally {
