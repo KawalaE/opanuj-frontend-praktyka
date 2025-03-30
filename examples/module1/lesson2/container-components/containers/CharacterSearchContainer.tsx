@@ -28,7 +28,7 @@ function CharacterSearchContainer() {
   return (
     <>
       <div className="pt-20" />
-      <SearchTitle />
+      <SearchTitle title="Wyszukiwarka postaci Rick and Morty" />
       <div className="pt-8" />
       <SearchForm
         name={name}
