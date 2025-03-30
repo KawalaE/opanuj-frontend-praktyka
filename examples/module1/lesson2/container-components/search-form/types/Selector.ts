@@ -11,5 +11,5 @@ export interface SelectorData extends InputData {
 export interface InputData {
   label: string;
   data: string;
-  setData: (data: string) => void;
+  setData: React.Dispatch<React.SetStateAction<string>>;
 }
