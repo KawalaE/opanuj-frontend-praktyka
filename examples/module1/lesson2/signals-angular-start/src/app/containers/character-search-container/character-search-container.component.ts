@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { Component, computed, effect, signal } from '@angular/core';
 import { CharacterListComponent } from '../../components/character-list/character-list.component';
 import { GenderSelectComponent } from '../../components/gender-select/gender-select.component';
 import { NameFieldComponent } from '../../components/name-field/name-field.component';
 import { SearchTitleComponent } from '../../components/search-title/search-title.component';
 import { SortSelectComponent } from '../../components/sort-select/sort-select.component';
 import { CharacterSearchService } from '../../services/character-search.service';
-import { Character } from '../../types/Character';
 
 @Component({
   selector: 'app-character-search-container',
@@ -23,29 +21,29 @@ import { Character } from '../../types/Character';
   styleUrl: './character-search-container.component.scss',
 })
 export class CharacterSearchContainerComponent {
-  characters: Character[] = [];
-  sub: Subscription = new Subscription();
-  showRickOnly = new BehaviorSubject<boolean>(false);
+  showRickOnly = signal(false);
 
-  constructor(private characterSearchService: CharacterSearchService) {}
+  characters = computed(() => {
+    if (this.showRickOnly()) {
+      return this.characterSearchService
+        .characters()
+        .filter((character) => character.name.includes('Rick'));
+    } else {
+      return this.characterSearchService.characters();
+    }
+  });
 
-  ngOnInit() {
-    this.sub = combineLatest([
-      this.characterSearchService.characters$,
-      this.showRickOnly,
-    ]).subscribe(([characters, showRickOnly]) => {
-      if (showRickOnly) {
-        this.characters = characters.filter((character) =>
-          character.name.includes('Rick')
-        );
-      } else {
-        this.characters = characters;
-      }
+  constructor(private characterSearchService: CharacterSearchService) {
+    effect(() => {
+      console.log('showRickOnly changed to', this.showRickOnly());
     });
-  }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    effect(() => {
+      console.log(
+        'characterd changed to:',
+        this.characterSearchService.characters()
+      );
+    });
   }
 
   get name(): string {
@@ -75,6 +73,6 @@ export class CharacterSearchContainerComponent {
   onShowRickOnlyChange(event: Event): void {
     const value = (event.target as HTMLInputElement).checked;
 
-    this.showRickOnly.next(value);
+    this.showRickOnly.set(value);
   }
 }
