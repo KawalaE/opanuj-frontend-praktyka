@@ -1,27 +1,37 @@
 import { useEffect, useState } from 'react';
 import type { Country } from '../components/CountriesList';
 
-interface countriesSearch {
-  country: Country;
-}
-
-export const useCountries = ({ countryName }: { countryName: string }) => {
+export const useCountries = ({
+  currentStrategy,
+  inputValue,
+}: {
+  currentStrategy: string;
+  inputValue: string;
+}) => {
   const [countries, setCountries] = useState<Country[]>([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    if (!inputValue) {
+      setCountries([]);
+    }
     const fetchCountries = async () => {
-      if (countryName !== '') {
-        console.log(countryName);
-        const url = `https://restcountries.com/v3.1/name/${countryName}?fields=name,flags,population,id`;
+      setLoading(true);
+      try {
+        const url = `https://restcountries.com/v3.1/${currentStrategy}/${inputValue}`;
         const response = await fetch(url);
         const data = await response.json();
-        console.log('data', data);
+        console.log(data);
+        setLoading(false);
         setCountries(data);
+      } catch (error) {
+        console.warn('Failed to fetch countries:', error);
+        setLoading(false);
+        setCountries([]);
       }
     };
 
     fetchCountries();
-  }, [countryName]);
+  }, [currentStrategy, inputValue]);
 
-  return { countries };
+  return { countries, loading };
 };

@@ -1,3 +1,4 @@
+import { DebounceInput } from 'react-debounce-input';
 interface InputProps {
   placeholder: string;
   value: string;
@@ -6,10 +7,11 @@ interface InputProps {
 
 const InputComponent = ({ placeholder, value, setValue }: InputProps) => {
   return (
-    <input
+    <DebounceInput
       type="text"
       placeholder={placeholder}
       value={value}
+      debounceTimeout={500}
       onChange={(e) => setValue(e.target.value)}
     />
   );
