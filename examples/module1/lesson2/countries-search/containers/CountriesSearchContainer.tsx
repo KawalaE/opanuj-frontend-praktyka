@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CountriesList from '../components/CountriesList';
 import InputComponent from '../components/Input';
+import TittleComponent from '../components/Tittle';
 import { useCountries } from '../hooks/useCountries';
 
 const CountriesSearchContainer = () => {
@@ -9,6 +10,7 @@ const CountriesSearchContainer = () => {
 
   return (
     <main className="container mx-auto py-4 bg-color-black">
+      <TittleComponent name="Countries search" />
       <div className="flex flex-row gap-5 mt-10 mb-10">
         <InputComponent
           placeholder="Search by country's name..."
