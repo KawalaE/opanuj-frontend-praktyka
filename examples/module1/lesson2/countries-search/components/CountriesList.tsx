@@ -2,7 +2,7 @@ import CountryCard from './CountryCard';
 
 export interface Country {
   name: CountryName;
-  population: string;
+  population: number;
   flags: FlagName;
 }
 
