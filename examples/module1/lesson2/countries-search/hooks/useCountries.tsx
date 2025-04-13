@@ -20,9 +20,12 @@ export const useCountries = ({
         const url = `https://restcountries.com/v3.1/${currentStrategy}/${inputValue}`;
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
+        const sortedData = data.sort((a: Country, b: Country) => {
+          return a.name.common.localeCompare(b.name.common);
+        });
+        console.log(sortedData);
         setLoading(false);
-        setCountries(data);
+        setCountries(sortedData);
       } catch (error) {
         console.warn('Failed to fetch countries:', error);
         setLoading(false);
