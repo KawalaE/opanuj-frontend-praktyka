@@ -14,6 +14,7 @@ const CountriesSearchContainer = () => {
   const [currentStrategy, setCurrentStartegy] = useState('name');
   const [sortByPopulation, setBySortByPopulation] = useState(false);
   const [paginationIndex, setPaginationIndex] = useState(0);
+  const pageSize = 10;
 
   const selectionStartegies: Record<Strategies, string> = {
     name: 'name',
@@ -48,14 +49,22 @@ const CountriesSearchContainer = () => {
         />
       </div>
       {loading == false ? (
-        <CountriesList countries={countries} />
+        <CountriesList
+          countries={countries.slice(
+            paginationIndex * pageSize,
+            pageSize + paginationIndex * pageSize
+          )}
+        />
       ) : (
         'loading...'
       )}
-      <PaginationComponent
-        paginationIndex={paginationIndex}
-        setPaginationIndex={setPaginationIndex}
-      />
+      {countries.length ? (
+        <PaginationComponent
+          paginationIndex={paginationIndex}
+          setPaginationIndex={setPaginationIndex}
+          pages={Number((countries.length / pageSize).toFixed(0))}
+        />
+      ) : null}
     </main>
   );
 };

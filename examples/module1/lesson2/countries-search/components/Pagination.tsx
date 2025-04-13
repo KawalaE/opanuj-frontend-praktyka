@@ -1,11 +1,13 @@
 interface PaginationProps {
   paginationIndex: number;
   setPaginationIndex: React.Dispatch<React.SetStateAction<number>>;
+  pages: number;
 }
 
 const PaginationComponent = ({
   paginationIndex,
   setPaginationIndex,
+  pages,
 }: PaginationProps) => {
   return (
     <div className="flex flex-row gap-5 items-center justify-end">
@@ -19,7 +21,9 @@ const PaginationComponent = ({
       <button onClick={() => setPaginationIndex(paginationIndex + 1)}>
         Next
       </button>
-      <p>Pages {paginationIndex}</p>
+      <p>
+        Pages {paginationIndex} of {pages}
+      </p>
     </div>
   );
 };
