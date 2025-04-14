@@ -37,6 +37,7 @@ const useFetchCountries = (searchTerm: string, filterType: FilterType) => {
         const data = await fetchFn(searchTerm);
         setCountries(data);
       } catch (error) {
+        console.log(error);
         setError(
           error instanceof Error
             ? error.message
