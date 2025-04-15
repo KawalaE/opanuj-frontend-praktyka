@@ -13,16 +13,22 @@ const PaginationComponent = ({
     <div className="flex flex-row gap-5 items-center justify-end">
       <button
         onClick={() =>
-          paginationIndex > 0 ? setPaginationIndex(paginationIndex - 1) : null
+          paginationIndex > 1 ? setPaginationIndex(paginationIndex - 1) : null
         }
       >
         Previous
       </button>
-      <button onClick={() => setPaginationIndex(paginationIndex + 1)}>
+      <button
+        onClick={() =>
+          paginationIndex < pages
+            ? setPaginationIndex(paginationIndex + 1)
+            : null
+        }
+      >
         Next
       </button>
       <p>
-        Pages {paginationIndex} of {pages}
+        Page {paginationIndex} of {pages}
       </p>
     </div>
   );

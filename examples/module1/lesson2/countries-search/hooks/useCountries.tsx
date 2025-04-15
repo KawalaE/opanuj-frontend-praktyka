@@ -1,29 +1,20 @@
 import { useEffect, useState } from 'react';
 import type { Country } from '../components/CountriesList';
-
-function sortAlphabeticallyHandler(data: Country[]): Country[] {
-  return data.sort((a: Country, b: Country) => {
-    return a.name.common.localeCompare(b.name.common, undefined, {
-      sensitivity: 'base',
-    });
-  });
-}
-
-function sortByPopulationHandler(data: Country[]): Country[] {
-  return data.sort((a: Country, b: Country) => b.population - a.population);
-}
+import { sortCountries, type SortKey } from './sortFuntions';
 
 export const useCountries = ({
-  currentStrategy,
+  filterBy,
+  sortBy,
   inputValue,
-  sortByPopulation,
 }: {
-  currentStrategy: string;
+  filterBy: string;
+  sortBy: SortKey;
   inputValue: string;
-  sortByPopulation: boolean;
 }) => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     if (!inputValue) {
       setCountries([]);
@@ -31,27 +22,29 @@ export const useCountries = ({
     const fetchCountries = async () => {
       setLoading(true);
       try {
-        const url = `https://restcountries.com/v3.1/${currentStrategy}/${inputValue}`;
+        const strategy = filterBy === 'language' ? 'lang' : filterBy;
+        const url = `https://restcountries.com/v3.1/${strategy}/${inputValue}`;
         const response = await fetch(url);
-        const data = await response.json();
-        let sortedData = sortAlphabeticallyHandler(data);
 
-        if (sortByPopulation) {
-          sortedData = sortByPopulationHandler(sortedData);
+        if (response.status === 404) {
+          setCountries([]);
+          setLoading(false);
+          return;
         }
 
-        console.log(sortedData);
-        setLoading(false);
+        const data = await response.json();
+        let sortedData = sortCountries(data, sortBy);
         setCountries(sortedData);
       } catch (error) {
-        console.warn('Failed to fetch countries:', error);
-        setLoading(false);
+        setError(true);
         setCountries([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCountries();
-  }, [currentStrategy, inputValue, sortByPopulation]);
+  }, [filterBy, inputValue, sortBy]);
 
-  return { countries, loading };
+  return { countries, loading, error };
 };

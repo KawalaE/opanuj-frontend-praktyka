@@ -1,20 +1,29 @@
 const SelectorComponent = ({
-  strategies,
-  currentStrategy,
-  setStaretgy,
+  options,
+  defaultOption,
+  setOption,
+  label,
 }: any) => {
+  const id = label.replace(/\s+/g, '-').toLowerCase();
   return (
-    <select
-      name="strategies"
-      id="strategies"
-      defaultValue={currentStrategy}
-      onChange={(e) => setStaretgy(e.target.value)}
-    >
-      <option value={strategies.name}>name</option>
-      <option value={strategies.currency}>currency</option>
-      <option value={strategies.language}>language</option>
-      <option value={strategies.capital}>capital</option>
-    </select>
+    <>
+      {' '}
+      <label htmlFor={id}>{label}</label>
+      <select
+        name={id}
+        id={id}
+        defaultValue={defaultOption}
+        onChange={(e) => setOption(e.target.value)}
+      >
+        {options.map((option: string) => {
+          return (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+    </>
   );
 };
 
