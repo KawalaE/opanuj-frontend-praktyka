@@ -3,6 +3,7 @@ import CharacterList from '../components/CharacterList';
 import SearchForm from '../components/SearchForm';
 import SearchTitle from '../components/SearchTitle';
 import useCharacters from '../hooks/useCharacters';
+import sortCharacters from '../utility/sortCharacters';
 
 function CharacterSearchContainer() {
   const [name, setName] = useState('');
@@ -10,14 +11,7 @@ function CharacterSearchContainer() {
   const [sortOption, setSortOption] = useState('');
   const { characters } = useCharacters({ name, gender });
 
-  const sortedCharacters = [...characters].sort((a, b) => {
-    if (sortOption === 'name') {
-      return a.name.localeCompare(b.name);
-    } else if (sortOption === 'created') {
-      return new Date(a.created).getTime() - new Date(b.created).getTime();
-    }
-    return 0;
-  });
+  const sortedCharacters = sortCharacters(characters, sortOption);
 
   return (
     <>
