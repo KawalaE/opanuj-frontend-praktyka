@@ -4,7 +4,6 @@ export default function sortCharacters(
   characters: Character[],
   option: string
 ) {
-  console.log('I am sorting');
   if (!characters.length) return [];
   return [...characters].sort((a, b) => {
     if (option === 'name') {
